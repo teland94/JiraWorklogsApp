@@ -1,0 +1,77 @@
+<ng-template #settingsModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Jira Connection</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="settingsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="settingsForm">
+      <div class="form-group">
+        <label for="name" class="col-form-label">Name</label>
+        <input class="form-control" formControlName="name" name="name">
+        <app-validation-error [control]="settingsForm.get('name')" propertyName="Name"></app-validation-error>
+      </div>
+      <div class="form-group">
+        <label for="instanceUrl" class="col-form-label">Instance Url</label>
+        <input class="form-control" formControlName="instanceUrl" name="instanceUrl">
+        <app-validation-error [control]="settingsForm.get('instanceUrl')" propertyName="Instance Url"></app-validation-error>
+      </div>
+      <div class="form-group">
+        <label for="userName" class="col-form-label">Username</label>
+        <input class="form-control" formControlName="userName" name="userName">
+        <app-validation-error [control]="settingsForm.get('userName')" propertyName="Username"></app-validation-error>
+      </div>
+      <div class="form-group">
+        <label for="authToken" class="col-form-label">Auth token</label>
+        <input class="form-control" formControlName="authToken" name="authToken">
+        <app-validation-error [control]="settingsForm.get('authToken')" propertyName="Auth token"></app-validation-error>
+      </div>
+      <div class="form-group">
+        <label for="tempoAuthToken" class="col-form-label">Tempo Auth Token</label>
+        <input class="form-control" formControlName="tempoAuthToken" name="tempoAuthToken">
+        <app-validation-error [control]="settingsForm.get('tempoAuthToken')" propertyName="Tempo Auth token"></app-validation-error>
+      </div>
+      <div class="form-group ml-1">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" formControlName="storeToken" name="storeToken" id="storeToken">
+          <label class="custom-control-label" for="storeToken">Store Token</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-primary" [disabled]="!settingsForm.valid" (click)="save()">Save</button>
+    <button class="btn btn-outline-secondary" (click)="close()">Cancel</button>
+  </div>
+</ng-template>
+
+<div class="btn-row">
+  <button class="btn btn-outline-primary" (click)="add(settingsModal)"><i class="fa fa-plus"></i> Add Connection</button>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Instance Url</th>
+      <th>Username</th>
+      <th>Auth token</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let connection of jiraConnections">
+      <td>{{connection.name}}</td>
+      <td>{{connection.instanceUrl}}</td>
+      <td>{{connection.userName}}</td>
+      <td>{{connection.authToken}}</td>
+      <td>
+        <a title="Edit Connection" class="mr-3" href="javascript:void(0);" (click)="edit(settingsModal, connection)">
+          <span class="ti-pencil"></span>
+        </a>
+        <a title="Remove Connection" href="javascript:void(0);" (click)="delete(connection)">
+          <span class="ti-trash"></span>
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>

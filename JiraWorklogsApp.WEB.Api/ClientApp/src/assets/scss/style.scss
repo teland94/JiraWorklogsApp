@@ -1,0 +1,59 @@
+/*
+Template Name: Monster Admin
+Author: Themedesigner
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+@import 'variable';
+@import 'app';
+@import 'pages';
+@import 'sidebar';
+@import '../scss/icons/font-awesome/css/font-awesome.min.css';
+@import '../scss/icons/simple-line-icons/css/simple-line-icons.css';
+@import '../scss/icons/weather-icons/css/weather-icons.min.css';
+@import '../scss/icons/linea-icons/linea.css';
+@import '../scss/icons/themify-icons/themify-icons.css';
+@import '../scss/icons/flag-icon-css/flag-icon.min.css';
+@import "../scss/icons/material-design-iconic-font/css/materialdesignicons.min.css";
+@import 'widgets';
+@import 'grid';
+@import 'responsive';
+@import 'spinners.css';
+@import 'animate.css';
+
+.btn.btn-default {
+  margin-right: 0.5em;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
+
+.btn-primary.disabled:hover, .btn-primary:disabled:hover {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.container-fluid {
+  position: relative;
+}
+
+.btn-row {
+  position: absolute;
+  top: 22px;
+  right: 30px;
+}
+
+.btn-outline-primary.disabled,
+.btn-outline-primary:disabled {
+  color: #7460ee;
+  background: transparent !important;
+  cursor: auto;
+}
+
+.btn-outline-primary:focus, .btn-outline-primary.focus {
+  color: #7460ee;
+  background-color: #ffffff;
+  border-color: #7460ee;
+}
