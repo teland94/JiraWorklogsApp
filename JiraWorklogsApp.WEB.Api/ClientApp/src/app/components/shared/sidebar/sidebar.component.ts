@@ -22,6 +22,7 @@ export class SidebarComponent implements AfterViewInit {
     } else {
       this.showMenu = element;
     }
+    this.hideSidebar();
   }
   addActiveClass(element: any) {
     if (element === this.showSubMenu) {
@@ -60,5 +61,10 @@ export class SidebarComponent implements AfterViewInit {
 
   logout() {
     this.adalService.logOut();
+  }
+
+  private hideSidebar() {
+    document.querySelector('body').classList.toggle('show-sidebar');
+    document.querySelector('.nav-toggler i').classList.toggle('ti-menu');
   }
 }

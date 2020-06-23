@@ -1,9 +1,9 @@
-import { JiraConnectionsService } from './../../services/jira-connections.service';
-import { JiraConnection, JiraConnectionVM } from './../../models/jira-connection.model';
+import { JiraConnectionsService } from '../../services/jira-connections.service';
+import { JiraConnection, JiraConnectionVM } from '../../models/jira-connection.model';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { CustomValidators } from 'ngx-custom-validators';
 import { ToastrService } from 'ngx-toastr';
 
@@ -54,8 +54,8 @@ export class SettingsComponent implements OnInit {
       userName: jiraConnection.userName,
       authToken: jiraConnection.authToken,
       tempoAuthToken: jiraConnection.tempoAuthToken,
-      storeToken: this.jiraConnectionsService.getLocalConnectionById(jiraConnection.id)
-        || !this.currentJiraConnection.authToken ? false : true
+      storeToken: !(this.jiraConnectionsService.getLocalConnectionById(jiraConnection.id)
+        || !this.currentJiraConnection.authToken)
     });
 
     this.settingsModalRef = this.modalService.show(template);
@@ -87,6 +87,10 @@ export class SettingsComponent implements OnInit {
   close() {
     this.settingsModalRef.hide();
     this.settingsForm.reset();
+  }
+
+  hashPassword(password: string) {
+    return '*'.repeat(password.length);
   }
 
   private testConnection(connection: JiraConnection) {

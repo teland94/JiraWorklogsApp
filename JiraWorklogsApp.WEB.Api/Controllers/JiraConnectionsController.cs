@@ -16,11 +16,14 @@ namespace JiraWorklogsApp.WEB.Api.Controllers
     [Authorize]
     public class JiraConnectionsController : BaseController
     {
-        IJiraConnectionsService JiraConnectionsService { get; }
+        private IJiraConnectionsService JiraConnectionsService { get; }
+        private IMapper Mapper { get; }
 
-        public JiraConnectionsController(IJiraConnectionsService jiraConnectionsService)
+        public JiraConnectionsController(IJiraConnectionsService jiraConnectionsService,
+            IMapper mapper)
         {
             JiraConnectionsService = jiraConnectionsService;
+            Mapper = mapper;
         }
 
         // GET: api/JiraConnections

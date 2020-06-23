@@ -42,7 +42,7 @@ export const routes: Routes = [
         },
         {
             path: 'authentication',
-            loadChildren: './components/authentication/authentication.module#AuthenticationModule'
+            loadChildren: () => import('./components/authentication/authentication.module').then(m => m.AuthenticationModule)
         }
     ]
 },

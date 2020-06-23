@@ -1,16 +1,18 @@
 using System;
+using System.Reflection;
 using AutoMapper;
 using JiraWorklogsApp.BLL.IServices;
 using JiraWorklogsApp.BLL.Services;
 using JiraWorklogsApp.DAL.Persistance;
 using JiraWorklogsApp.DAL.Persistance.Configuration;
+using JiraWorklogsApp.WEB.Api.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace JiraWorklogsApp.WEB.Api
 {
@@ -26,7 +28,11 @@ namespace JiraWorklogsApp.WEB.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+                options.Filters.Add(typeof(CustomExceptionFilterAttribute));
+            });
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -49,12 +55,14 @@ namespace JiraWorklogsApp.WEB.Api
             services.AddDbContext<AppDbContext>();
             services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
 
+            services.AddAutoMapper(typeof(CommonAutoMapperProfile).GetTypeInfo().Assembly);
+
             services.AddTransient<IJiraConnectionsService, JiraConnectionsService>();
             services.AddTransient<IReportService, ReportService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -90,16 +98,6 @@ namespace JiraWorklogsApp.WEB.Api
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
-            });
-
-            ConfigureMapperProfiles();
-        }
-
-        private void ConfigureMapperProfiles()
-        {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<CommonAutoMapperProfile>();
             });
         }
     }

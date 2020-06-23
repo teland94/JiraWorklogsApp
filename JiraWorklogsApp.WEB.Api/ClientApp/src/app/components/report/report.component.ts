@@ -1,14 +1,13 @@
-import { JiraConnection, JiraConnectionShortInfo } from './../../models/jira-connection.model';
-import { JiraConnectionsService } from './../../services/jira-connections.service';
-import { Component, OnInit } from '@angular/core';
-import { ReportService } from '../../services/report.service';
-import { ReportItem } from '../../models/report-item.model';
-import { DatePipe } from '@angular/common';
-import { JiraProject } from '../../models/jira-project.model';
-import { GetReportListParams } from '../../models/get-report-list-params.model';
-import { DateRange } from '../../models/date-range.model';
+import {JiraConnectionsService} from '../../services/jira-connections.service';
+import {Component, OnInit} from '@angular/core';
+import {ReportService} from '../../services/report.service';
+import {DatePipe} from '@angular/common';
+import {JiraProject} from '../../models/jira-project.model';
+import {GetReportListParams} from '../../models/get-report-list-params.model';
+import {DateRange} from '../../models/date-range.model';
 import 'rxjs/add/operator/finally';
-import { ToastrService } from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
+import {LocalDataSource} from 'ng2-smart-table';
 
 @Component({
   selector: "app-report",
@@ -20,6 +19,7 @@ export class ReportComponent implements OnInit {
 
   settings = {
     actions: false,
+    hideSubHeader: true,
     columns: {
       date: {
         title: 'Date',
@@ -27,12 +27,8 @@ export class ReportComponent implements OnInit {
         sort: true,
         valuePrepareFunction: date => {
           const raw = new Date(date);
-          const formatted = this.datePipe.transform(raw);
-          return formatted;
+          return this.datePipe.transform(raw);
         }
-      },
-      projectName: {
-        title: 'Project Name'
       },
       userName: {
         title: 'User Name'
@@ -55,11 +51,15 @@ export class ReportComponent implements OnInit {
     },
     attr: {
       class: 'table table-striped'
+    },
+    pager: {
+      display: true,
+      perPage: 25
     }
   };
 
   projects: Array<JiraProject>;
-  reportData: Array<ReportItem>;
+  reportData: LocalDataSource;
 
   dateRangePickerModel: Date[];
   currentProject: JiraProject;
@@ -108,7 +108,7 @@ export class ReportComponent implements OnInit {
         )
       )
       .subscribe(data => {
-        this.reportData = data;
+        this.reportData = new LocalDataSource(data);
       }, error => {
         if (error.status === 400) {
           this.toastrService.error(error.error, 'Error');

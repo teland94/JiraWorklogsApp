@@ -47,7 +47,7 @@ namespace JiraWorklogsApp.Common.Helpers
                     }
                     else
                     {
-                        var propValue = game.GetPropValue(pi.Key) ?? "Unknown";
+                        var propValue = game.GetPropValue(pi.Key) ?? string.Empty;
                         var strValue = propValue.ToString();
                         if (strValue.Contains("|"))
                         {

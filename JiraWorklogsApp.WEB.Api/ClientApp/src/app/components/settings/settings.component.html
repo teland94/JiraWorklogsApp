@@ -9,27 +9,27 @@
     <form [formGroup]="settingsForm">
       <div class="form-group">
         <label for="name" class="col-form-label">Name</label>
-        <input class="form-control" formControlName="name" name="name">
+        <input id="name" class="form-control" formControlName="name" name="name">
         <app-validation-error [control]="settingsForm.get('name')" propertyName="Name"></app-validation-error>
       </div>
       <div class="form-group">
         <label for="instanceUrl" class="col-form-label">Instance Url</label>
-        <input class="form-control" formControlName="instanceUrl" name="instanceUrl">
+        <input id="instanceUrl" class="form-control" formControlName="instanceUrl" name="instanceUrl">
         <app-validation-error [control]="settingsForm.get('instanceUrl')" propertyName="Instance Url"></app-validation-error>
       </div>
       <div class="form-group">
         <label for="userName" class="col-form-label">Username</label>
-        <input class="form-control" formControlName="userName" name="userName">
+        <input id="userName" class="form-control" formControlName="userName" name="userName">
         <app-validation-error [control]="settingsForm.get('userName')" propertyName="Username"></app-validation-error>
       </div>
       <div class="form-group">
         <label for="authToken" class="col-form-label">Auth token</label>
-        <input class="form-control" formControlName="authToken" name="authToken">
+        <input id="authToken" class="form-control" formControlName="authToken" name="authToken">
         <app-validation-error [control]="settingsForm.get('authToken')" propertyName="Auth token"></app-validation-error>
       </div>
       <div class="form-group">
         <label for="tempoAuthToken" class="col-form-label">Tempo Auth Token</label>
-        <input class="form-control" formControlName="tempoAuthToken" name="tempoAuthToken">
+        <input id="tempoAuthToken" class="form-control" formControlName="tempoAuthToken" name="tempoAuthToken">
         <app-validation-error [control]="settingsForm.get('tempoAuthToken')" propertyName="Tempo Auth token"></app-validation-error>
       </div>
       <div class="form-group ml-1">
@@ -63,7 +63,7 @@
       <td>{{connection.name}}</td>
       <td>{{connection.instanceUrl}}</td>
       <td>{{connection.userName}}</td>
-      <td>{{connection.authToken}}</td>
+      <td>{{hashPassword(connection.authToken)}}</td>
       <td>
         <a title="Edit Connection" class="mr-3" href="javascript:void(0);" (click)="edit(settingsModal, connection)">
           <span class="ti-pencil"></span>

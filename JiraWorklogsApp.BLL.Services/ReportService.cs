@@ -59,6 +59,9 @@ namespace JiraWorklogsApp.BLL.Services
         public async Task<byte[]> GetReportExcelDataAsync(GetReportListParams getReportListParams)
         {
             var data = await GetReportDataListAsync(getReportListParams);
+
+            data = data.OrderBy(d => d.Date).ToList();
+
             return ExcelHelper.GetExportFile(data, "Report");
         }
 
@@ -84,6 +87,8 @@ namespace JiraWorklogsApp.BLL.Services
 
                 reportDataList = await GetTempoReportDataList(getReportListParams);
             }
+
+            reportDataList = reportDataList.OrderByDescending(d => d.Date).ToList();
 
             return reportDataList;
         }
