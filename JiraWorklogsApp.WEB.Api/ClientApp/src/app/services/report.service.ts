@@ -1,9 +1,11 @@
 import { JiraConnectionShortInfo } from './../models/jira-connection.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReportItem } from '../models/report-item.model';
 import { JiraProject } from '../models/jira-project.model';
 import { GetReportListParams } from '../models/get-report-list-params.model';
+import { JiraUser } from '../models/jira-user';
+import {GetAssignableUsersParams} from '../models/get-assignable-users-params';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,10 @@ export class ReportService {
 
   getProjects(jiraConnections: Array<JiraConnectionShortInfo>) {
     return this.httpClient.post<JiraProject[]>(this.apiUrl + '/GetProjects', jiraConnections);
+  }
+
+  getAssignableUsers(params: GetAssignableUsersParams) {
+    return this.httpClient.post<JiraUser[]>(this.apiUrl + '/GetAssignableUsers', params);
   }
 
   getReportList(params: GetReportListParams) {

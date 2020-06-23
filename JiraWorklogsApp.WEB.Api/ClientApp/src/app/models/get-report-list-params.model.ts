@@ -5,5 +5,6 @@ export class GetReportListParams {
     constructor(
         public dateRange: DateRange,
         public projectKey: string,
-        public jiraConnection: JiraConnectionShortInfo) { }
+        public jiraConnection: JiraConnectionShortInfo,
+        public userName?: string) { }
 }

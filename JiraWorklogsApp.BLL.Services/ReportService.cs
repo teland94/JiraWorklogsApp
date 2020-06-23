@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Dapplo.Jira;
 using Dapplo.Jira.Entities;
 using JiraWorklogsApp.BLL.IServices;
 using JiraWorklogsApp.Common.Helpers;
 using JiraWorklogsApp.Common.Models;
+using JiraWorklogsApp.Common.Models.Params;
 
 namespace JiraWorklogsApp.BLL.Services
 {
@@ -49,6 +51,22 @@ namespace JiraWorklogsApp.BLL.Services
             }
 
             return projects;
+        }
+
+        public async Task<IEnumerable<JiraUser>> GetAssignableUsers(GetAssignableUsersParams getAssignableUsersParams)
+        {
+            var connection = await JiraConnectionService.GetAsync(getAssignableUsersParams.JiraConnection.Id);
+            var token = string.IsNullOrWhiteSpace(connection.AuthToken) ? getAssignableUsersParams.JiraConnection.AuthToken : connection.AuthToken;
+            JiraClient.SetBaseUri(new Uri(connection.InstanceUrl));
+            JiraClient.SetTokenBasicAuthentication(connection.UserName, token);
+
+            var users = await JiraClient.User.GetAssignableUsersAsync(projectKey: getAssignableUsersParams.ProjectKey);
+
+            return users.Select(u => new JiraUser
+            {
+                EmailAddress = u.EmailAddress,
+                DisplayName = u.DisplayName
+            });
         }
 
         public async Task<IEnumerable<ReportItem>> GetReportListAsync(GetReportListParams getReportListParams)
@@ -102,8 +120,13 @@ namespace JiraWorklogsApp.BLL.Services
                 ? getReportListParams.DateRange.End.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) 
                 : DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-            var issueSearch = new JqlIssueSearch {Jql = $"project='{getReportListParams.ProjectKey}'" +
-                                                        $"AND worklogDate >= {startDate} AND worklogDate <= {endDate}"};
+            var jqlStr = new StringBuilder($"project='{getReportListParams.ProjectKey}'" +
+                                           $"AND worklogDate >= '{startDate}' AND worklogDate <= '{endDate}'");
+            if (!string.IsNullOrEmpty(getReportListParams.UserName))
+            {
+                jqlStr.Append($"AND worklogAuthor = '{getReportListParams.UserName}'");
+            }
+            var issueSearch = new JqlIssueSearch { Jql = jqlStr.ToString() };
 
             var issues = await JiraClient.Issue.SearchAsync(issueSearch, null);
 

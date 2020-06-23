@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using JiraWorklogsApp.BLL.IServices;
 using JiraWorklogsApp.Common.Models;
+using JiraWorklogsApp.Common.Models.Params;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,24 @@ namespace JiraWorklogsApp.WEB.Api.Controllers
             try
             {
                 return Ok(await ReportService.GetProjectsAsync(jiraConnections, GetAdUserId()));
+            }
+            catch (HttpRequestException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        [HttpPost(nameof(GetAssignableUsers))]
+        public async Task<IActionResult> GetAssignableUsers([FromBody]GetAssignableUsersParams getAssignableUsersParams)
+        {
+            try
+            {
+                return Ok(await ReportService.GetAssignableUsers(getAssignableUsersParams));
             }
             catch (HttpRequestException e)
             {

@@ -8,6 +8,8 @@ import {DateRange} from '../../models/date-range.model';
 import 'rxjs/add/operator/finally';
 import {ToastrService} from 'ngx-toastr';
 import {LocalDataSource} from 'ng2-smart-table';
+import {GetAssignableUsersParams} from '../../models/get-assignable-users-params';
+import {JiraUser} from '../../models/jira-user';
 
 @Component({
   selector: "app-report",
@@ -59,10 +61,12 @@ export class ReportComponent implements OnInit {
   };
 
   projects: Array<JiraProject>;
+  projectUsers: Array<JiraUser>;
   reportData: LocalDataSource;
 
   dateRangePickerModel: Date[];
-  currentProject: JiraProject;
+  currentProject: JiraProject = null;
+  currentUser: JiraUser = null;
 
   constructor(
     private reportService: ReportService,
@@ -83,10 +87,26 @@ export class ReportComponent implements OnInit {
       if (data) {
         this.projects = data;
         this.currentProject = data[0];
+        this.projectChanged();
 
         this.loadReportList();
       }
     });
+  }
+
+  projectChanged() {
+    if (!this.currentProject) {
+      return;
+    }
+    const connection = this.jiraConnectionService.getLocalConnectionById(
+      this.currentProject.jiraConnection.id
+    );
+    this.reportService.getAssignableUsers(new GetAssignableUsersParams(
+      this.currentProject.key,
+      connection ? connection : this.currentProject.jiraConnection
+    )).subscribe(data => {
+      this.projectUsers = data;
+    })
   }
 
   loadReportList() {
@@ -104,7 +124,8 @@ export class ReportComponent implements OnInit {
             this.dateRangePickerModel[1]
           ),
           this.currentProject.key,
-          connection ? connection : this.currentProject.jiraConnection
+          connection ? connection : this.currentProject.jiraConnection,
+          this.currentUser ? this.currentUser.emailAddress : null
         )
       )
       .subscribe(data => {
@@ -130,7 +151,8 @@ export class ReportComponent implements OnInit {
         new GetReportListParams(
           new DateRange(this.dateRangePickerModel[0], this.dateRangePickerModel[1]),
           this.currentProject.key,
-          connection ? connection : this.currentProject.jiraConnection
+          connection ? connection : this.currentProject.jiraConnection,
+          this.currentUser ? this.currentUser.emailAddress : null
         )
       )
       .subscribe(data => {

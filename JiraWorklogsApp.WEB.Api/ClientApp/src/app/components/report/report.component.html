@@ -1,7 +1,7 @@
-<div class="form-row">
+<div class="form-row report-controls-row">
   <div class="col">
     <label for="project" class="label-block">Project</label>
-    <select id="project" name="project" class="form-control" [(ngModel)]="currentProject">
+    <select id="project" name="project" class="form-control" [(ngModel)]="currentProject" (ngModelChange)="projectChanged()">
       <option *ngFor="let project of projects" [ngValue]="project">{{project.name}}</option>
     </select>
   </div>
@@ -10,7 +10,16 @@
     <input id="dateRange" class="form-control" placeholder="Date Range" [(ngModel)]="dateRangePickerModel" bsDaterangepicker>
   </div>
 </div>
-<div class="form-row mt-2">
+<div class="form-row report-controls-row">
+  <div class="col-6">
+    <label for="projectUser" class="label-block">Project User</label>
+    <select id="projectUser" name="project" class="form-control" [(ngModel)]="currentUser">
+      <option [ngValue]="null">All Users</option>
+      <option *ngFor="let user of projectUsers" [ngValue]="user">{{user.displayName}}</option>
+    </select>
+  </div>
+</div>
+<div class="form-row report-controls-row">
   <div class="col-12">
     <button type="button" class="btn btn-outline-primary" (click)="loadReportList()">
       <i class="fa fa-sign-in"></i> Create Report</button>
