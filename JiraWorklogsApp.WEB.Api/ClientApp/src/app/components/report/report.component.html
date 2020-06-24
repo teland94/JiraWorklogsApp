@@ -27,6 +27,9 @@
       <i class="fa fa-file-text"></i> Export To Excel</button>
   </div>
 </div>
+<div class="summary-row">
+  <span *ngIf="totalHours" class="text-info font-weight-bold">Total Hours: {{totalHours}}</span>
+</div>
 <div class="table-responsive">
   <ng2-smart-table [settings]="settings" [source]="reportData"></ng2-smart-table>
 </div>

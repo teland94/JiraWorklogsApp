@@ -63,6 +63,7 @@ export class ReportComponent implements OnInit {
   projects: Array<JiraProject>;
   projectUsers: Array<JiraUser>;
   reportData: LocalDataSource;
+  totalHours: number;
 
   dateRangePickerModel: Date[];
   currentProject: JiraProject = null;
@@ -130,6 +131,8 @@ export class ReportComponent implements OnInit {
       )
       .subscribe(data => {
         this.reportData = new LocalDataSource(data);
+        this.totalHours = data.map(ri => ri.hours)
+                              .reduce((a, b) => a + b, 0);
       }, error => {
         if (error.status === 400) {
           this.toastrService.error(error.error, 'Error');
