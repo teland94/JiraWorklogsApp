@@ -11,4 +11,7 @@
   <div *ngIf="control.errors.email">
     {{propertyName}} must be a valid e-mail.
   </div>
+  <div *ngIf="control.errors.pattern">
+    {{propertyName}} must be valid.
+  </div>
 </div>

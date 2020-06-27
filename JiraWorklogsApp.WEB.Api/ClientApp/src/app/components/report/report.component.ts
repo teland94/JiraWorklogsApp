@@ -5,7 +5,6 @@ import {DatePipe} from '@angular/common';
 import {JiraProject} from '../../models/jira-project.model';
 import {GetReportListParams} from '../../models/get-report-list-params.model';
 import {DateRange} from '../../models/date-range.model';
-import 'rxjs/add/operator/finally';
 import {ToastrService} from 'ngx-toastr';
 import {LocalDataSource} from 'ng2-smart-table';
 import {GetAssignableUsersParams} from '../../models/get-assignable-users-params';

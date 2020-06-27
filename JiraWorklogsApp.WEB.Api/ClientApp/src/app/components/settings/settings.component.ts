@@ -4,8 +4,8 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { CustomValidators } from 'ngx-custom-validators';
 import { ToastrService } from 'ngx-toastr';
+import { CustomValidators } from "../../custom-validators";
 
 @Component({
   selector: 'app-settings',
@@ -26,8 +26,8 @@ export class SettingsComponent implements OnInit {
     private toastrService: ToastrService) {
     this.settingsForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      instanceUrl: new FormControl('', CustomValidators.url),
-      userName: new FormControl('', Validators.email),
+      instanceUrl: new FormControl('', [Validators.required, CustomValidators.url]),
+      userName: new FormControl('', [Validators.required, Validators.email]),
       authToken: new FormControl('', Validators.required),
       tempoAuthToken: new FormControl(''),
       storeToken: new FormControl(false)

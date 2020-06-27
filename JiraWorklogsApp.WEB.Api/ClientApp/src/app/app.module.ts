@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { CustomFormsModule } from 'ngx-custom-validators';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -53,7 +52,6 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
         Ng2SmartTableModule,
         ModalModule.forRoot(),
         BsDatepickerModule.forRoot(),
-        CustomFormsModule,
         NgHttpLoaderModule.forRoot(),
         ToastrModule.forRoot(),
         PerfectScrollbarModule,
