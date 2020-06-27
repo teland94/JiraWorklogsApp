@@ -1,59 +1,29 @@
 /*
-Template Name: Monster Admin
-Author: Themedesigner
-Email: niravjoshi87@gmail.com
+Template Name: Admin Template
+Author: Niravjoshi / Wrappixel
 File: scss
 */
+
+//(fonts)
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900');
+
+//(Required file)
 @import 'variable';
-@import 'app';
-@import 'pages';
-@import 'sidebar';
-@import '../scss/icons/font-awesome/css/font-awesome.min.css';
-@import '../scss/icons/simple-line-icons/css/simple-line-icons.css';
-@import '../scss/icons/weather-icons/css/weather-icons.min.css';
-@import '../scss/icons/linea-icons/linea.css';
-@import '../scss/icons/themify-icons/themify-icons.css';
-@import '../scss/icons/flag-icon-css/flag-icon.min.css';
-@import "../scss/icons/material-design-iconic-font/css/materialdesignicons.min.css";
-@import 'widgets';
-@import 'grid';
+
+// Import Bootstrap source files (Required file)
+@import "bootstrap/bootstrap";
+
+//This is for the components (Required file)
+@import 'components';
+
+//This is for the responsive (Required file)
 @import 'responsive';
-@import 'spinners.css';
-@import 'animate.css';
 
-.btn.btn-default {
-  margin-right: 0.5em;
-}
+//In This scss you can write your scss
+@import 'custom'; 
 
-.btn-primary.disabled, .btn-primary:disabled {
-  cursor: default;
-  opacity: 0.3;
-}
-
-.btn-primary.disabled:hover, .btn-primary:disabled:hover {
-  background: #007bff;
-  border-color: #007bff;
-}
-
-.container-fluid {
-  position: relative;
-}
-
-.btn-row {
-  position: absolute;
-  top: 22px;
-  right: 30px;
-}
-
-.btn-outline-primary.disabled,
-.btn-outline-primary:disabled {
-  color: #7460ee;
-  background: transparent !important;
-  cursor: auto;
-}
-
-.btn-outline-primary:focus, .btn-outline-primary.focus {
-  color: #7460ee;
-  background-color: #ffffff;
-  border-color: #7460ee;
-}
+//This is for the icons (Required file)
+@import 'icons/font-awesome/css/fontawesome-all.css';
+@import 'icons/themify-icons/themify-icons.css';
+@import "icons/material-design-iconic-font/css/materialdesignicons.min.css";
+ 

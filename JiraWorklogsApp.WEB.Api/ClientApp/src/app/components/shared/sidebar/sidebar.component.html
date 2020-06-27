@@ -1,46 +1,16 @@
-<aside class="left-sidebar">
-  <!-- Sidebar scroll-->
-  <div class="scroll-sidebar">
-    <!-- Sidebar navigation-->
-    <nav class="sidebar-nav">
-      <ul id="sidebarnav">
-        <li [class.active]="showMenu === 'home'">
-          <a routerLink="/home" (click)="addExpandClass('home')" [routerLinkActive]="['router-link-active']">
-            <i class="fa fa-home"></i>
-            <span class="hide-menu">Home</span>
-          </a>
-        </li>
-        <li [class.active]="showMenu === 'report'">
-          <a routerLink="/report" (click)="addExpandClass('report')" [routerLinkActive]="['router-link-active']">
-            <i class="fa fa-sign-in"></i>
-            <span class="hide-menu">Reports</span>
-          </a>
-        </li>
-        <li [class.active]="showMenu === 'settings'">
-          <a routerLink="/settings" (click)="addExpandClass('settings')" [routerLinkActive]="['router-link-active']">
-            <i class="fa fa-cog"></i>
-            <span class="hide-menu">Settings</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <!-- End Sidebar navigation -->
-  </div>
-  <!-- End Sidebar scroll-->
-  <!-- Bottom points-->
-  <div class="sidebar-footer">
-    <!-- item-->
-    <a routerLink="/settings" class="link" data-toggle="tooltip" title="Settings">
-      <i class="ti-settings"></i>
-    </a>
-    <!-- item-->
-    <!-- <a href="" class="link" data-toggle="tooltip" title="Email">
-      <i class="mdi mdi-gmail"></i>
-    </a> -->
-    <!-- item-->
-    <a href="javascript:void(0);" (click)="logout()" class="link" data-toggle="tooltip" title="Logout">
-      <i class="mdi mdi-power"></i>
-    </a>
-  </div>
-  <!-- End Bottom points-->
-</aside>
+<nav class="sidebar-nav">
+  <ul id="sidebarnav">
+    <li class="nav-divider"></li>
+    <!-- First level menu -->
+    <li class="sidebar-item" [class.active]="showMenu === sidebarnavItem.title" *ngFor="let sidebarnavItem of sidebarnavItems"
+        [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'" (click)="sidebarNavItemClick.emit()">
+      <div class="nav-small-cap" *ngIf="sidebarnavItem.extralink === true">{{sidebarnavItem.title}}</div>
+      <a class="sidebar-link waves-effect waves-dark" [routerLink]="sidebarnavItem.class === '' ? [sidebarnavItem.path] : null"
+         [ngClass]="[sidebarnavItem.class]" *ngIf="!sidebarnavItem.extralink;" (click)="addExpandClass(sidebarnavItem.title)"
+         [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'">
+        <i [ngClass]="[sidebarnavItem.icon]"></i>
+        <span class="hide-menu">{{sidebarnavItem.title}}</span>
+      </a>
+    </li>
+  </ul>
+</nav>

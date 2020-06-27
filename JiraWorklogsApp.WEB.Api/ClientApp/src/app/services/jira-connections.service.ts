@@ -1,8 +1,9 @@
 import { AdalService } from 'adal-angular4';
-import { JiraConnection, JiraConnectionShortInfo } from './../models/jira-connection.model';
+import { JiraConnection, JiraConnectionShortInfo } from '../models/jira-connection.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class JiraConnectionsService {
     private adalService: AdalService) { }
 
   get(): Observable<JiraConnection[]> {
-    return this.httpClient.get<JiraConnection[]>(this.apiUrl).map(data => {
+    return this.httpClient.get<JiraConnection[]>(this.apiUrl).pipe(map(data => {
       data.forEach(conn => {
         if (!conn.authToken) {
           const connection = this.getLocalConnectionById(conn.id);
@@ -26,11 +27,11 @@ export class JiraConnectionsService {
         }
       });
       return data;
-    });
+    }));
   }
 
   getShortInfo(): Observable<JiraConnectionShortInfo[]> {
-    return this.httpClient.get<JiraConnectionShortInfo[]>(this.apiUrl + '/GetShortInfo').map(data => {
+    return this.httpClient.get<JiraConnectionShortInfo[]>(this.apiUrl + '/GetShortInfo').pipe(map(data => {
       data.forEach(conn => {
         if (!conn.authToken) {
           const connection = this.getLocalConnectionById(conn.id);
@@ -41,11 +42,11 @@ export class JiraConnectionsService {
         }
       });
       return data;
-    });
+    }));
   }
 
   getItem(id: number): Observable<JiraConnection> {
-    return this.httpClient.get<JiraConnection>(this.apiUrl + '/Get/' + id).map(data => {
+    return this.httpClient.get<JiraConnection>(this.apiUrl + '/Get/' + id).pipe(map(data => {
       if (!data.authToken) {
         const connection = this.getLocalConnectionById(id);
         if (connection) {
@@ -54,7 +55,7 @@ export class JiraConnectionsService {
         }
       }
       return data;
-    });
+    }));
   }
 
   create(jiraConnection: JiraConnection, storeToken: boolean): Observable<number> {
@@ -66,7 +67,7 @@ export class JiraConnectionsService {
       jiraConnection.authToken = null;
       jiraConnection.tempoAuthToken = null;
     }
-    return this.httpClient.post<number>(this.apiUrl, jiraConnection).map(data => {
+    return this.httpClient.post<number>(this.apiUrl, jiraConnection).pipe(map(data => {
       if (!storeToken) {
         jiraConnection.id = data;
         jiraConnection.authToken = token;
@@ -74,7 +75,7 @@ export class JiraConnectionsService {
         this.addOrUpdateLocalToken(jiraConnection);
       }
       return data;
-    });
+    }));
   }
 
   update(jiraConnection: JiraConnection, storeToken: boolean) {
@@ -89,9 +90,9 @@ export class JiraConnectionsService {
   }
 
   delete(id: number) {
-    return this.httpClient.delete(this.apiUrl + '/' + id).map(() => {
+    return this.httpClient.delete(this.apiUrl + '/' + id).pipe(map(() => {
       this.deleteLocalConnection(id);
-    });
+    }));
   }
 
   test(jiraConnection: JiraConnection) {

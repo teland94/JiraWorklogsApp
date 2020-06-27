@@ -52,7 +52,7 @@ export class ReportComponent implements OnInit {
       }
     },
     attr: {
-      class: 'table table-striped'
+      class: 'table'
     },
     pager: {
       display: true,

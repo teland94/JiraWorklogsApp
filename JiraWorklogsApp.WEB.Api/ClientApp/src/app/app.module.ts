@@ -1,5 +1,4 @@
 import { JiraConnectionsService } from './services/jira-connections.service';
-import * as $ from 'jquery';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -12,16 +11,14 @@ import { CustomFormsModule } from 'ngx-custom-validators';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { ToastrModule } from 'ngx-toastr';
 
-import { BlankComponent } from './components/blank/blank.component';
 import { SIDEBAR_TOGGLE_DIRECTIVES } from './components/shared/sidebar.directive';
 import { NavigationComponent } from './components/shared/header-navigation/navigation.component';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
-import { RightSidebarComponent } from './components/shared/right-sidebar/rightsidebar.component';
-import { BreadcrumbComponent } from './components/shared/breadcrumb/breadcrumb.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpinnerComponent } from './components/shared/spinner.component';
+import { LayoutComponent } from './components/layout/layout.component';
 import { HomeComponent } from './components/home/home.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { ValidationErrorComponent } from './components/validation-error/validation-error.component';
@@ -29,37 +26,39 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ReportComponent } from './components/report/report.component';
 import { ReportService } from './services/report.service';
 import { AdalService, AdalGuard, AdalInterceptor } from 'adal-angular4';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 
 @NgModule({
   declarations: [
     AppComponent,
     SpinnerComponent,
-    BlankComponent,
+    LayoutComponent,
     NavigationComponent,
-    BreadcrumbComponent,
     SidebarComponent,
-    RightSidebarComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
     HomeComponent,
+    ReportComponent,
     SettingsComponent,
     ValidationErrorComponent,
-    ReportComponent
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    Ng2SmartTableModule,
-    ModalModule.forRoot(),
-    BsDatepickerModule.forRoot(),
-    CustomFormsModule,
-    NgHttpLoaderModule.forRoot(),
-    ToastrModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        Ng2SmartTableModule,
+        ModalModule.forRoot(),
+        BsDatepickerModule.forRoot(),
+        CustomFormsModule,
+        NgHttpLoaderModule.forRoot(),
+        ToastrModule.forRoot(),
+        PerfectScrollbarModule,
+        BsDropdownModule.forRoot()
+    ],
   providers: [
     JiraConnectionsService,
     ReportService,

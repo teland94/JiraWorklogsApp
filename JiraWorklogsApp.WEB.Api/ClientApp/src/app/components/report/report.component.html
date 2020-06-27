@@ -1,17 +1,17 @@
-<div class="form-row report-controls-row">
-  <div class="col">
+<div class="form-row">
+  <div class="col-md-6 col-xs-12 report-controls-form-group">
     <label for="project" class="label-block">Project</label>
     <select id="project" name="project" class="form-control" [(ngModel)]="currentProject" (ngModelChange)="projectChanged()">
       <option *ngFor="let project of projects" [ngValue]="project">{{project.name}}</option>
     </select>
   </div>
-  <div class="col">
+  <div class="col-md-6 col-xs-12 report-controls-form-group">
     <label for="dateRange" class="label-block">Date Range</label>
     <input id="dateRange" class="form-control" placeholder="Date Range" [(ngModel)]="dateRangePickerModel" bsDaterangepicker>
   </div>
 </div>
-<div class="form-row report-controls-row">
-  <div class="col-6">
+<div class="form-row">
+  <div class="col-md-6 col-xs-12 report-controls-form-group">
     <label for="projectUser" class="label-block">Project User</label>
     <select id="projectUser" name="project" class="form-control" [(ngModel)]="currentUser">
       <option [ngValue]="null">All Users</option>
@@ -20,15 +20,15 @@
   </div>
 </div>
 <div class="form-row report-controls-row">
-  <div class="col-12">
+  <div class="col-md-6 col-xs-12 report-controls-form-group">
     <button type="button" class="btn btn-outline-primary" (click)="loadReportList()">
-      <i class="fa fa-sign-in"></i> Create Report</button>
+      <i class="fa fa-sign-in-alt"></i> Create Report</button>
     <button type="button" class="btn btn-outline-secondary ml-2" (click)="reportToExcel()">
-      <i class="fa fa-file-text"></i> Export To Excel</button>
+      <i class="fa fa-file-excel"></i> Export To Excel</button>
   </div>
 </div>
 <div class="summary-row">
-  <span *ngIf="totalHours" class="text-info font-weight-bold">Total Hours: {{totalHours}}</span>
+  <span *ngIf="totalHours" class="text-info font-weight-light-bold">Total Hours: {{totalHours}}</span>
 </div>
 <div class="table-responsive">
   <ng2-smart-table [settings]="settings" [source]="reportData"></ng2-smart-table>
