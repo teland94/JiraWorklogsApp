@@ -24,7 +24,7 @@
       </div>
       <div class="form-group">
         <label for="authToken" class="col-form-label">Auth token</label>
-        <input id="authToken" class="form-control" formControlName="authToken" name="authToken">
+        <app-password-control id="authToken" formControlName="authToken"></app-password-control>
         <app-validation-error [control]="settingsForm.get('authToken')" propertyName="Auth token"></app-validation-error>
       </div>
       <div class="form-group">

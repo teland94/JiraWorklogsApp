@@ -26,7 +26,7 @@ import { ReportComponent } from './components/report/report.component';
 import { ReportService } from './services/report.service';
 import { AdalService, AdalGuard, AdalInterceptor } from 'adal-angular4';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { PasswordControlComponent } from './components/password-control/password-control.component';
 
 @NgModule({
   declarations: [
@@ -40,23 +40,23 @@ import { BsDropdownModule } from "ngx-bootstrap/dropdown";
     ReportComponent,
     SettingsComponent,
     ValidationErrorComponent,
+    PasswordControlComponent
   ],
-    imports: [
-        CommonModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        HttpClientModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        Ng2SmartTableModule,
-        ModalModule.forRoot(),
-        BsDatepickerModule.forRoot(),
-        NgHttpLoaderModule.forRoot(),
-        ToastrModule.forRoot(),
-        PerfectScrollbarModule,
-        BsDropdownModule.forRoot()
-    ],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    Ng2SmartTableModule,
+    ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    NgHttpLoaderModule.forRoot(),
+    ToastrModule.forRoot(),
+    PerfectScrollbarModule
+  ],
   providers: [
     JiraConnectionsService,
     ReportService,
