@@ -31,7 +31,7 @@ namespace JiraWorklogsApp.WEB.Api.Controllers
         public async Task<IActionResult> Get()
         {
             return Ok(Mapper.Map<IEnumerable<JiraConnection>,
-                IEnumerable<JiraConnectionViewModel>>(await JiraConnectionsService.GetAsync(GetAdUserId())));
+                IEnumerable<JiraConnectionViewModel>>(await JiraConnectionsService.GetAsync(GetAdUserId(), false)));
         }
 
         [HttpGet(nameof(GetShortInfo))]
@@ -44,7 +44,7 @@ namespace JiraWorklogsApp.WEB.Api.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(Mapper.Map<JiraConnection, JiraConnectionViewModel>(await JiraConnectionsService.GetAsync(id)));
+            return Ok(Mapper.Map<JiraConnection, JiraConnectionViewModel>(await JiraConnectionsService.GetAsync(id, false)));
         }
 
         // POST: api/JiraConnections

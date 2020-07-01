@@ -24,12 +24,12 @@
       </div>
       <div class="form-group">
         <label for="authToken" class="col-form-label">Auth token</label>
-        <app-password-control id="authToken" formControlName="authToken"></app-password-control>
+        <app-password-control id="authToken" formControlName="authToken" [showPasswordEnabled]="false"></app-password-control>
         <app-validation-error [control]="settingsForm.get('authToken')" propertyName="Auth token"></app-validation-error>
       </div>
       <div class="form-group">
         <label for="tempoAuthToken" class="col-form-label">Tempo Auth Token</label>
-        <input id="tempoAuthToken" class="form-control" formControlName="tempoAuthToken" name="tempoAuthToken">
+        <app-password-control id="tempoAuthToken" formControlName="tempoAuthToken" [showPasswordEnabled]="false"></app-password-control>
         <app-validation-error [control]="settingsForm.get('tempoAuthToken')" propertyName="Tempo Auth token"></app-validation-error>
       </div>
       <div class="form-group ml-1">
