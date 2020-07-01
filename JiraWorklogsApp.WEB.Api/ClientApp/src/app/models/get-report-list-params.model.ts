@@ -7,4 +7,5 @@ export class GetReportListParams {
         public projectKey: string,
         public jiraConnection: JiraConnectionShortInfo,
         public userName?: string) { }
+  timezoneOffset: number;
 }

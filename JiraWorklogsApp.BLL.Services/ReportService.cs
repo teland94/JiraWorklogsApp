@@ -76,17 +76,21 @@ namespace JiraWorklogsApp.BLL.Services
 
         public async Task<byte[]> GetReportExcelDataAsync(GetReportListParams getReportListParams)
         {
-            var data = await GetReportDataListAsync(getReportListParams);
+            var reportItems = await GetReportDataListAsync(getReportListParams);
 
-            data = data.OrderBy(d => d.Date).ToList();
+            reportItems = reportItems.OrderBy(d => d.Date).ToList();
 
-            return ExcelHelper.GetExportFile(data, "Report");
+            foreach (var reportItem in reportItems)
+            {
+                reportItem.Date = reportItem.Date.AddHours(getReportListParams.TimezoneOffset);
+            }
+
+            return ExcelHelper.GetExportFile(reportItems, "Report");
         }
 
         private async Task<List<ReportItem>> GetReportDataListAsync(GetReportListParams getReportListParams)
         {
             var connection = await JiraConnectionService.GetAsync(getReportListParams.JiraConnection.Id);
-
             List<ReportItem> reportDataList;
 
             if (string.IsNullOrWhiteSpace(connection.TempoAuthToken) &&
