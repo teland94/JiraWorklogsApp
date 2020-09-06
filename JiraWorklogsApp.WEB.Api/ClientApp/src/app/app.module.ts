@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule, BsDaterangepickerConfig } from 'ngx-bootstrap/datepicker';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -27,6 +27,12 @@ import { ReportService } from './services/report.service';
 import { AdalService, AdalGuard, AdalInterceptor } from 'adal-angular4';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PasswordControlComponent } from './components/password-control/password-control.component';
+
+export function getDaterangepickerConfig(): BsDaterangepickerConfig {
+  return Object.assign(new BsDaterangepickerConfig(), <BsDaterangepickerConfig>{
+    containerClass: 'theme-dark-blue'
+  });
+}
 
 @NgModule({
   declarations: [
@@ -62,7 +68,8 @@ import { PasswordControlComponent } from './components/password-control/password
     ReportService,
     DatePipe,
     AdalService, AdalGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: AdalInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AdalInterceptor, multi: true },
+    { provide: BsDaterangepickerConfig, useFactory: getDaterangepickerConfig }
   ],
   bootstrap: [AppComponent]
 })

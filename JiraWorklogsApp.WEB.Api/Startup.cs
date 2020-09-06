@@ -3,6 +3,7 @@ using System.Reflection;
 using AutoMapper;
 using JiraWorklogsApp.BLL.IServices;
 using JiraWorklogsApp.BLL.Services;
+using JiraWorklogsApp.BLL.Services.Configuration;
 using JiraWorklogsApp.DAL.Persistance;
 using JiraWorklogsApp.DAL.Persistance.Configuration;
 using JiraWorklogsApp.WEB.Api.Filters;
@@ -56,6 +57,9 @@ namespace JiraWorklogsApp.WEB.Api
             services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
 
             services.AddAutoMapper(typeof(CommonAutoMapperProfile).GetTypeInfo().Assembly);
+
+            services.AddTransient<ICipherService, CipherService>();
+            services.Configure<CipherSettings>(Configuration.GetSection("Cipher"));
 
             services.AddTransient<IJiraConnectionsService, JiraConnectionsService>();
             services.AddTransient<IReportService, ReportService>();

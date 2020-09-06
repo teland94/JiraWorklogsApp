@@ -18,6 +18,8 @@ export class PasswordControlComponent implements ControlValueAccessor {
   showPass: boolean;
   @ViewChild('pwd') pwdField: ElementRef;
 
+  @Input() showPasswordEnabled = true;
+
   get value() {
     return this._value;
   }
