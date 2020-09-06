@@ -33,29 +33,8 @@ namespace JiraWorklogsApp.Common.Helpers
                 {
                     T game = list[i];
 
-                    if (Type.GetTypeCode(pi.Value.PropertyType) == TypeCode.Decimal)
-                    {
-                        worksheet.Cell(i + 2, attribute.Column + 1).SetValue((decimal)game.GetPropValue(pi.Key));
-                    } 
-                    else if (Type.GetTypeCode(pi.Value.PropertyType) == TypeCode.Int32)
-                    {
-                        worksheet.Cell(i + 2, attribute.Column + 1).SetValue((int)game.GetPropValue(pi.Key));
-                    }
-                    else if (Type.GetTypeCode(pi.Value.PropertyType) == TypeCode.DateTime)
-                    {
-                        worksheet.Cell(i + 2, attribute.Column + 1).SetValue((DateTime)game.GetPropValue(pi.Key));
-                    }
-                    else
-                    {
-                        var propValue = game.GetPropValue(pi.Key) ?? string.Empty;
-                        var strValue = propValue.ToString();
-                        if (strValue.Contains("|"))
-                        {
-                            strValue = strValue.Replace("|", "\n");
-                            worksheet.Cell(i + 2, attribute.Column + 1).Style.Alignment.SetWrapText();
-                        }
-                        worksheet.Cell(i + 2, attribute.Column + 1).SetValue(strValue);
-                    }
+                    var propValue = game.GetPropValue(pi.Key);
+                    worksheet.Cell(i + 2, attribute.Column + 1).SetValue(propValue);
                 }
             }
 

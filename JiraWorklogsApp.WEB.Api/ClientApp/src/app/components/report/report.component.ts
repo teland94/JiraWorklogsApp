@@ -16,7 +16,6 @@ import {JiraUser} from '../../models/jira-user';
   styleUrls: ["./report.component.css"]
 })
 export class ReportComponent implements OnInit {
-  private isLoading: boolean;
 
   settings = {
     actions: false,
@@ -39,6 +38,9 @@ export class ReportComponent implements OnInit {
       },
       issueTitle: {
         title: 'Issue Title'
+      },
+      storyPointEstimate: {
+        title: 'Estimate'
       },
       worklogDescription: {
         title: 'Worklog Description'
@@ -88,8 +90,6 @@ export class ReportComponent implements OnInit {
         this.projects = data;
         this.currentProject = data[0];
         this.projectChanged();
-
-        this.loadReportList();
       }
     });
   }

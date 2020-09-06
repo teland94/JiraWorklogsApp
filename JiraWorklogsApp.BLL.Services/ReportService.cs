@@ -132,7 +132,16 @@ namespace JiraWorklogsApp.BLL.Services
             }
             var issueSearch = new JqlIssueSearch { Jql = jqlStr.ToString() };
 
-            var issues = await JiraClient.Issue.SearchAsync(issueSearch, null);
+            var searchFields = new List<string>(JiraConfig.SearchFields);
+
+            var fields = await JiraClient.Server.GetFieldsAsync();
+            var storyPointEstimateCustomField = fields.FirstOrDefault(f => f.Name == "Story point estimate" && f.IsCustom);
+            if (storyPointEstimateCustomField != null)
+            {
+                searchFields.Add(storyPointEstimateCustomField.Id);
+            }
+
+            var issues = await JiraClient.Issue.SearchAsync(issueSearch, fields: searchFields);
 
             var reportDataList = new List<ReportItem>();
 
@@ -165,6 +174,15 @@ namespace JiraWorklogsApp.BLL.Services
                         if (element.TimeSpentSeconds != null)
                         {
                             reportItem.Hours = (decimal)(element.TimeSpentSeconds.Value / 3600.0);
+                        }
+
+                        if (storyPointEstimateCustomField != null)
+                        {
+                            issue.Fields.CustomFields.TryGetValue(storyPointEstimateCustomField.Id, out var storyPointEstimate);
+                            if (storyPointEstimate != null)
+                            {
+                                reportItem.StoryPointEstimate = Convert.ToDecimal(storyPointEstimate);
+                            }
                         }
                     }
                 }

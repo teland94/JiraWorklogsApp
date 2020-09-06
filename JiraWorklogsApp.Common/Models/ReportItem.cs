@@ -20,10 +20,13 @@ namespace JiraWorklogsApp.Common.Models
         [ExportToExcel(4, "Issue Title")]
         public string IssueTitle { get; set; }
 
-        [ExportToExcel(5, "Worklog Description")]
+        [ExportToExcel(6, "Worklog Description")]
         public string WorklogDescription { get; set; }
 
-        [ExportToExcel(6, "Hours")]
+        [ExportToExcel(7, "Hours")]
         public decimal Hours { get; set; }
+
+        [ExportToExcel(5, "Estimate")]
+        public decimal? StoryPointEstimate { get; set; }
     }
 }

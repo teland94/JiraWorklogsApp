@@ -6,4 +6,5 @@ export class ReportItem {
   issueTitle: string;
   worklogDescription: string;
   hours: number;
+  storyPointEstimate?: number;
 }

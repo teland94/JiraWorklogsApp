@@ -229,7 +229,10 @@ namespace Dapplo.Jira
 			{
 				search.MaxResults = page.MaxResults ?? 20;
 				search.StartAt = page.StartAt ?? 0;
-			}
+            }
+
+            search.Fields = fields ?? new List<string>(JiraConfig.SearchFields);
+
 			return jiraClient.SearchAsync(search, cancellationToken);
 		}
 
