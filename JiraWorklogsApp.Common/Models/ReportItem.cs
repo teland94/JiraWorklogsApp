@@ -27,6 +27,6 @@ namespace JiraWorklogsApp.Common.Models
         public decimal Hours { get; set; }
 
         [ExportToExcel(5, "Estimate")]
-        public decimal? StoryPointEstimate { get; set; }
+        public decimal? Estimate { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,14 @@ namespace JiraWorklogsApp.BLL.Services
         private IJiraClient JiraClient { get; set; }
         private IJiraConnectionsService JiraConnectionService { get; }
         private ITempoService TempoService { get; }
+        private IExchangeInfoService ExchangeInfoService { get; }
 
-        public ReportService(IJiraConnectionsService jiraConnectionService)
+        public ReportService(IJiraConnectionsService jiraConnectionService,
+            IExchangeInfoService exchangeInfoService)
         {
             TempoService = Services.TempoService.Create();
             JiraConnectionService = jiraConnectionService;
+            ExchangeInfoService = exchangeInfoService;
         }
         
         public async Task<IEnumerable<JiraProject>> GetProjectsAsync(ICollection<JiraConnectionShortInfo> jiraConnections, string userId)
@@ -82,6 +86,19 @@ namespace JiraWorklogsApp.BLL.Services
             foreach (var reportItem in reportItems)
             {
                 reportItem.Date = reportItem.Date.AddHours(getReportListParams.TimezoneOffset);
+            }
+
+            const string templateFileName = "Report_Template.xlsx";
+            if (File.Exists(templateFileName))
+            {
+                var exchangeInfo = await ExchangeInfoService.GetPrivatBankExchangeInfoByCcyAsync("USD");
+                var variables = new Dictionary<string, object>
+                {
+                    { "ReportItems", reportItems },
+                    { "buy", Convert.ToDouble(exchangeInfo.Buy, CultureInfo.InvariantCulture) }
+                };
+
+                return ExcelHelper.GetExportFileFromTemplate(templateFileName, reportItems, variables);
             }
 
             return ExcelHelper.GetExportFile(reportItems, "Report");
@@ -180,7 +197,7 @@ namespace JiraWorklogsApp.BLL.Services
                             issue.Fields.CustomFields.TryGetValue(storyPointEstimateCustomField.Id, out var storyPointEstimate);
                             if (storyPointEstimate != null)
                             {
-                                reportItem.StoryPointEstimate = Convert.ToDecimal(storyPointEstimate);
+                                reportItem.Estimate = Convert.ToDecimal(storyPointEstimate);
                             }
                         }
                     }

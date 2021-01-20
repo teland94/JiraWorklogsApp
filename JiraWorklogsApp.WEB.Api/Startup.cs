@@ -59,6 +59,7 @@ namespace JiraWorklogsApp.WEB.Api
 
             services.AddTransient<IJiraConnectionsService, JiraConnectionsService>();
             services.AddTransient<IReportService, ReportService>();
+            services.AddTransient<IExchangeInfoService, ExchangeInfoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

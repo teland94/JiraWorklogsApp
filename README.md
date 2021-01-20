@@ -9,6 +9,7 @@ SPA (Single Page Application) that uses the Jira API to get Worklogs with multip
   * Monster Admin Template
   * Tempo API
   * ClosedXML
+  * ClosedXML.Report
   * adal-angular4 (Azure AD Authentication)
   * Dapplo.Jira (Jira API)
   

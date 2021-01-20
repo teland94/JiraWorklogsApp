@@ -37,6 +37,12 @@
     <ProjectReference Include="..\JiraWorklogsApp.DAL.Persistance\JiraWorklogsApp.DAL.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Report_Template.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">

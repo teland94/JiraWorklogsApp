@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using ClosedXML.Excel;
+using ClosedXML.Report;
 using JiraWorklogsApp.Common.Attributes;
 using JiraWorklogsApp.Common.Extensions;
 
@@ -72,17 +73,28 @@ namespace JiraWorklogsApp.Common.Helpers
 
         public static byte[] GetExportFile<T>(IEnumerable<T> collection, string workSheetName)
         {
-            byte[] content;
-
             XLWorkbook workbook = CollectionToWorkbook(collection, workSheetName);
 
-            using (MemoryStream memoryStream = new MemoryStream())
+            using MemoryStream memoryStream = new MemoryStream();
+            workbook.SaveAs(memoryStream);
+
+            return memoryStream.ToArray();
+        }
+
+        public static byte[] GetExportFileFromTemplate<T>(string fileName, IEnumerable<T> collection, IDictionary<string, object> variables)
+        {
+            var template = new XLTemplate(fileName);
+
+            foreach (var (alias, value) in variables)
             {
-                workbook.SaveAs(memoryStream);
-                content = memoryStream.ToArray();
-                memoryStream.Close();
+                template.AddVariable(alias, value);
             }
-            return content;
+            template.Generate();
+
+            var ms = new MemoryStream();
+            template.SaveAs(ms);
+
+            return ms.ToArray();
         }
     }
 }
