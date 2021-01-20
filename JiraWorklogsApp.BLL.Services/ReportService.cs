@@ -15,13 +15,12 @@ namespace JiraWorklogsApp.BLL.Services
 {
     public class ReportService : IReportService
     {
-        private IJiraClient JiraClient { get; }
+        private IJiraClient JiraClient { get; set; }
         private IJiraConnectionsService JiraConnectionService { get; }
         private ITempoService TempoService { get; }
 
         public ReportService(IJiraConnectionsService jiraConnectionService)
         {
-            JiraClient = Dapplo.Jira.JiraClient.Create();
             TempoService = Services.TempoService.Create();
             JiraConnectionService = jiraConnectionService;
         }
@@ -35,8 +34,8 @@ namespace JiraWorklogsApp.BLL.Services
             foreach (var connection in connections)
             {
                 var token = string.IsNullOrWhiteSpace(connection.AuthToken) ? jiraConnections.FirstOrDefault(c => c.Id == connection.Id)?.AuthToken : connection?.AuthToken;
-                JiraClient.SetBaseUri(new Uri(connection.InstanceUrl));
-                JiraClient.SetTokenBasicAuthentication(connection.UserName, token);
+                JiraClient = Dapplo.Jira.JiraClient.Create(new Uri(connection.InstanceUrl));
+                JiraClient.SetBasicAuthentication(connection.UserName, token);
 
                 projects.AddRange((await JiraClient.Project.GetAllAsync()).Select(p => new JiraProject
                 {
@@ -57,8 +56,8 @@ namespace JiraWorklogsApp.BLL.Services
         {
             var connection = await JiraConnectionService.GetAsync(getAssignableUsersParams.JiraConnection.Id);
             var token = string.IsNullOrWhiteSpace(connection.AuthToken) ? getAssignableUsersParams.JiraConnection.AuthToken : connection.AuthToken;
-            JiraClient.SetBaseUri(new Uri(connection.InstanceUrl));
-            JiraClient.SetTokenBasicAuthentication(connection.UserName, token);
+            JiraClient = Dapplo.Jira.JiraClient.Create(new Uri(connection.InstanceUrl));
+            JiraClient.SetBasicAuthentication(connection.UserName, token);
 
             var users = await JiraClient.User.GetAssignableUsersAsync(projectKey: getAssignableUsersParams.ProjectKey);
 
@@ -97,8 +96,8 @@ namespace JiraWorklogsApp.BLL.Services
                 string.IsNullOrWhiteSpace(getReportListParams.JiraConnection.TempoAuthToken))
             {
                 var token = string.IsNullOrWhiteSpace(connection.AuthToken) ? getReportListParams.JiraConnection.AuthToken : connection.AuthToken;
-                JiraClient.SetBaseUri(new Uri(connection.InstanceUrl));
-                JiraClient.SetTokenBasicAuthentication(connection.UserName, token);
+                JiraClient = Dapplo.Jira.JiraClient.Create(new Uri(connection.InstanceUrl));
+                JiraClient.SetBasicAuthentication(connection.UserName, token);
                 reportDataList = await GetJiraReportDataList(getReportListParams);
             }
             else
@@ -141,7 +140,7 @@ namespace JiraWorklogsApp.BLL.Services
                 searchFields.Add(storyPointEstimateCustomField.Id);
             }
 
-            var issues = await JiraClient.Issue.SearchAsync(issueSearch, fields: searchFields);
+            var issues = await JiraClient.Issue.SearchAsync(issueSearch.Jql, fields: searchFields);
 
             var reportDataList = new List<ReportItem>();
 

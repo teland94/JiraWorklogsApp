@@ -12,16 +12,7 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-        { path: '', redirectTo: '/home', pathMatch: 'full' },
-        {
-          path: 'home',
-          component: HomeComponent,
-          data: {
-            title: 'Home Page',
-            canActivate: [AdalGuard],
-            urls: [{ title: 'Home', url: '/home' }, { title: 'Home Page' }]
-          }
-        },
+        { path: '', redirectTo: '/report', pathMatch: 'full' },
         {
           path: 'report',
           component: ReportComponent,
@@ -48,7 +39,7 @@ export const routes: Routes = [
 }];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'corrected' })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }
