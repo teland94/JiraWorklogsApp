@@ -10,3 +10,9 @@
   display: flex;
   justify-content: flex-end;
 }
+
+@media only screen and (max-width: 600px) {
+  .report-controls-row button .control-text {
+    display: none;
+  }
+}

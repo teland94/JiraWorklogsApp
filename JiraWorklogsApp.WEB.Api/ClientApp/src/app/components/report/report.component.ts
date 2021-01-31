@@ -9,6 +9,9 @@ import {ToastrService} from 'ngx-toastr';
 import {LocalDataSource} from 'ng2-smart-table';
 import {GetAssignableUsersParams} from '../../models/get-assignable-users-params';
 import {JiraUser} from '../../models/jira-user';
+import {SheetComponent} from '../sheet/sheet.component';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {catchError} from 'rxjs/operators';
 
 @Component({
   selector: "app-report",
@@ -70,11 +73,14 @@ export class ReportComponent implements OnInit {
   currentProject: JiraProject = null;
   currentUser: JiraUser = null;
 
+  doc: Blob;
+
   constructor(
     private reportService: ReportService,
     private jiraConnectionService: JiraConnectionsService,
     private datePipe: DatePipe,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private modalService: BsModalService
   ) {
     const date = new Date();
     const pastDate = new Date();
@@ -140,7 +146,29 @@ export class ReportComponent implements OnInit {
       });
   }
 
+  openExcelPreviewModal() {
+    this.getExcelReport().subscribe(data => {
+      const initialState = {
+        doc: data
+      };
+      this.modalService.show(SheetComponent, {initialState, class: 'modal-lg custom-height-modal'});
+    });
+  }
+
   reportToExcel() {
+    this.getExcelReport().subscribe(data => {
+      const url = window.URL.createObjectURL(data);
+
+      const downloadLink = document.createElement('a');
+      downloadLink.href = url;
+      downloadLink.download = `Report ${new Date().toLocaleDateString()}.xlsx`;
+      downloadLink.click();
+
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  private getExcelReport() {
     if (!this.currentProject || !this.currentProject.jiraConnection) {
       return;
     }
@@ -148,29 +176,20 @@ export class ReportComponent implements OnInit {
       this.currentProject.jiraConnection.id
     );
 
-    this.reportService
-      .getReportExcelFile(
-        new GetReportListParams(
-          new DateRange(this.dateRangePickerModel[0], this.dateRangePickerModel[1]),
-          this.currentProject.key,
-          connection ? connection : this.currentProject.jiraConnection,
-          this.currentUser ? this.currentUser.emailAddress : null
-        )
+    return this.reportService.getReportExcelFile(new GetReportListParams(
+      new DateRange(this.dateRangePickerModel[0], this.dateRangePickerModel[1]),
+      this.currentProject.key,
+      connection ? connection : this.currentProject.jiraConnection,
+      this.currentUser ? this.currentUser.emailAddress : null
       )
-      .subscribe(data => {
-        const url = window.URL.createObjectURL(data);
-
-        const downloadLink = document.createElement('a');
-        downloadLink.href = url;
-        downloadLink.download = `Report ${new Date().toLocaleDateString()}.xlsx`;
-        downloadLink.click();
-
-        window.URL.revokeObjectURL(url);
-      }, error => {
+    ).pipe(catchError(error => {
         if (error.status === 400) {
           this.toastrService.error(error.error, 'Error');
         }
-        console.log(error);
-      });
+        if (error.status === 422) {
+          this.toastrService.error('Empty data', 'Error');
+        }
+        throw error;
+      }));
   }
 }

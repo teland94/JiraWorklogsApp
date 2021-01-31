@@ -81,7 +81,7 @@ namespace JiraWorklogsApp.Common.Helpers
             return memoryStream.ToArray();
         }
 
-        public static byte[] GetExportFileFromTemplate<T>(string fileName, IEnumerable<T> collection, IDictionary<string, object> variables)
+        public static byte[] GetExportFileFromTemplate(string fileName, IDictionary<string, object> variables)
         {
             var template = new XLTemplate(fileName);
 
@@ -90,9 +90,9 @@ namespace JiraWorklogsApp.Common.Helpers
                 template.AddVariable(alias, value);
             }
             template.Generate();
-
+            
             var ms = new MemoryStream();
-            template.SaveAs(ms);
+            template.SaveAs(ms, true, true);
 
             return ms.ToArray();
         }

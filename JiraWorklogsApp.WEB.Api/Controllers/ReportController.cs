@@ -88,6 +88,10 @@ namespace JiraWorklogsApp.WEB.Api.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (InvalidOperationException e)
+            {
+                return UnprocessableEntity(e.Message);
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e);

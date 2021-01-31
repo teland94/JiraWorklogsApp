@@ -20,11 +20,13 @@
   </div>
 </div>
 <div class="form-row report-controls-row">
-  <div class="col-md-6 col-xs-12 report-controls-form-group">
+  <div class="col-12 report-controls-form-group">
     <button type="button" class="btn btn-outline-primary" (click)="loadReportList()">
-      <i class="fa fa-sign-in-alt"></i> Create Report</button>
+      <i class="fa fa-sign-in-alt"></i><span class="control-text"> Create Report</span></button>
+    <button type="button" class="btn btn-outline-secondary ml-2" (click)="openExcelPreviewModal()">
+      <i class="fa fa-table"></i><span class="control-text"> Excel Preview</span></button>
     <button type="button" class="btn btn-outline-secondary ml-2" (click)="reportToExcel()">
-      <i class="fa fa-file-excel"></i> Export To Excel</button>
+      <i class="fa fa-file-excel"></i><span class="control-text"> Export To Excel</span></button>
   </div>
 </div>
 <div class="summary-row">

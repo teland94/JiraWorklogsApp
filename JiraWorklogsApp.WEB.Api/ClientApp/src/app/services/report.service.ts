@@ -34,7 +34,7 @@ export class ReportService {
   getReportExcelFile(params: GetReportListParams) {
     params.dateRange = this.correctDateRange(params.dateRange);
     params.timezoneOffset = this.getTimezoneOffset();
-    return this.httpClient.post(this.apiUrl + '/GetReportExcelFile', params, { responseType: 'blob' as 'json' });
+    return this.httpClient.post<Blob>(this.apiUrl + '/GetReportExcelFile', params, { responseType: 'blob' as 'json' });
   }
 
   private correctDateRange(dateRange: DateRange) {

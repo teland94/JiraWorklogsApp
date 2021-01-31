@@ -27,6 +27,7 @@ import { ReportService } from './services/report.service';
 import { AdalService, AdalGuard, AdalInterceptor } from 'adal-angular4';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PasswordControlComponent } from './components/password-control/password-control.component';
+import { SheetComponent } from './components/sheet/sheet.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PasswordControlComponent } from './components/password-control/password
     ReportComponent,
     SettingsComponent,
     ValidationErrorComponent,
-    PasswordControlComponent
+    PasswordControlComponent,
+    SheetComponent
   ],
   imports: [
     CommonModule,

@@ -83,6 +83,11 @@ namespace JiraWorklogsApp.BLL.Services
 
             reportItems = reportItems.OrderBy(d => d.Date).ToList();
 
+            if (reportItems.Count == 0)
+            {
+                throw new InvalidOperationException("Empty data");
+            }
+
             foreach (var reportItem in reportItems)
             {
                 reportItem.Date = reportItem.Date.AddHours(getReportListParams.TimezoneOffset);
@@ -98,7 +103,7 @@ namespace JiraWorklogsApp.BLL.Services
                     { "buy", Convert.ToDouble(exchangeInfo.Buy, CultureInfo.InvariantCulture) }
                 };
 
-                return ExcelHelper.GetExportFileFromTemplate(templateFileName, reportItems, variables);
+                return ExcelHelper.GetExportFileFromTemplate(templateFileName, variables);
             }
 
             return ExcelHelper.GetExportFile(reportItems, "Report");
