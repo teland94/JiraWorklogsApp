@@ -69,7 +69,7 @@ namespace JiraWorklogsApp.BLL.Services
         public async Task TestAsync(JiraConnection jiraConnection)
         {
             var jiraClient = JiraClient.Create(new Uri(jiraConnection.InstanceUrl));
-            jiraClient.SetTokenBasicAuthentication(jiraConnection.UserName, jiraConnection.AuthToken);
+            jiraClient.SetBasicAuthentication(jiraConnection.UserName, jiraConnection.AuthToken);
             await jiraClient.User.GetMyselfAsync();
 
             if (!string.IsNullOrWhiteSpace(jiraConnection.TempoAuthToken))
