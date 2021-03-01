@@ -12,6 +12,7 @@ import {JiraUser} from '../../models/jira-user';
 import {SheetComponent} from '../sheet/sheet.component';
 import {BsModalService} from 'ngx-bootstrap/modal';
 import {catchError} from 'rxjs/operators';
+import {downloadToFile} from '../../../utils';
 
 @Component({
   selector: "app-report",
@@ -157,14 +158,7 @@ export class ReportComponent implements OnInit {
 
   reportToExcel() {
     this.getExcelReport().subscribe(data => {
-      const url = window.URL.createObjectURL(data);
-
-      const downloadLink = document.createElement('a');
-      downloadLink.href = url;
-      downloadLink.download = `Report ${new Date().toLocaleDateString()}.xlsx`;
-      downloadLink.click();
-
-      window.URL.revokeObjectURL(url);
+      downloadToFile(data, `Report ${new Date().toLocaleDateString()}.xlsx`);
     });
   }
 
