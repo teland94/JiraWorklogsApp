@@ -11,8 +11,8 @@ export class AppComponent implements OnInit {
   title = 'app';
 
   private azureAdConfig = {
-    tenant: 'teland94hotmail.onmicrosoft.com',
-    clientId: '35106b69-8750-44d2-a181-73451ec96464',
+    tenant: 'teland01mail.onmicrosoft.com',
+    clientId: '3907a040-eb02-4ddd-aa8c-da94e79a21ce',
     cacheLocation: 'localStorage'
   };
 
